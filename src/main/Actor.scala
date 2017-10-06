@@ -5,13 +5,13 @@ package main
 
 import java.time.LocalDate
 
-case class Actor(
-                name: String,
-                birthDate: LocalDate,
-                monthlyIncome: Double
-                ) {
+class Actor(name: String, birthDate: LocalDate, initialIncome: Double) {
+
+  private var monthlyIncome = initialIncome
 
   def updateIncome(newIncome: Double) = {
-    this.copy(monthlyIncome = newIncome)
+    monthlyIncome = newIncome
   }
+
+  def getIncome = monthlyIncome
 }

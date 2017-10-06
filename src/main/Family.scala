@@ -7,6 +7,6 @@ case class Family(
                  familyName: String,
                  members: Seq[Actor]
                  ) {
-  def getMonthlyIncome = members.map(m => m.monthlyIncome).sum
+  def getMonthlyIncome = members.map(m => m.getIncome).sum
 
 }

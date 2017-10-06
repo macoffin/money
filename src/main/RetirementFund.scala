@@ -3,23 +3,21 @@
   */
 package main
 
-case class RetirementFund(
-                         fundName: String,
-                         fundBalance: Double
-                         ) {
+class RetirementFund (fundName: String, startingBalance: Double) {
+
+  private var fundBalance = startingBalance
 
   def withdrawPrinciple(amount: Double) = {
-    val newBalance = fundBalance - amount
-    copy(fundBalance = newBalance)
+    fundBalance -= amount
   }
 
   def invest(amount: Double) = {
-    val newBalance = this.fundBalance + amount
-    this.copy(fundBalance = newBalance)
+    fundBalance += amount
   }
 
   def accrueValue(pct: Double) = {
-    val newBalance = fundBalance * (1 + pct)
-    copy(fundBalance = newBalance)
+    fundBalance += fundBalance * pct
   }
+
+  def getBalance = fundBalance
 }
