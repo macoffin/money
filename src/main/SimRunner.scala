@@ -2,21 +2,34 @@
   * Created by marie on 10/4/17.
   */
 
-package Money
+package main
+
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-import scala.collection.immutable.Range.Inclusive
-
 object SimRunner extends App{
 
-  def runSim(family: Family, monthlySpend: Double, simYears: Int) = {
+  // This is the function that actually runs the simulation.
+
+  def runSim(family: Family, retFunds: Seq[RetirementFund], monthlySpend: Double, simYears: Int) = {
     val nMonths: Int = simYears * 12
+    val nFunds = retFunds.length
+    val investmentPerFund = 100.0/nFunds
+    val nAccrualsPerYear = 4
+    val interestRate = 0.03
+    val accrualRate = interestRate/nAccrualsPerYear
 
     val monthIndex = (1 to nMonths).toList
     monthIndex.foreach{m =>
+      //println(investmentPerFund)
       val income = family.getMonthlyIncome
-      println("Income: " + income)
+      retFunds.head.invest(100)
+      retFunds.map{r => r.invest(investmentPerFund)}
+      if (m % 4 == 0) retFunds.map{ r => r.accrueValue(accrualRate)}
+      if (m % 12 == 0) {
+        val investmentBalance =  retFunds.map(r => r.fundBalance).sum
+        println("Current retirement fund balance is " + investmentBalance)
+      }
     }
 
   }
@@ -45,11 +58,13 @@ object SimRunner extends App{
 
   val fryeFamily = Family("Frye", Seq(dwight, theresa, marie))
 
+  val retirementFund = RetirementFund("Generic fund", 1200000.0)
+
   /*  Read in the event file for the family */
 
   val monthlySpend = 8000.0
 
   val simulationYears = 10 //Just to try it out
 
-  runSim(family=fryeFamily, monthlySpend, simulationYears)
+  runSim(family=fryeFamily, Seq(retirementFund), monthlySpend, simulationYears)
 }

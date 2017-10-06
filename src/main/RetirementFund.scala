@@ -1,7 +1,8 @@
 /**
   * Created by marie on 10/4/17.
   */
-package Money
+package main
+
 case class RetirementFund(
                          fundName: String,
                          fundBalance: Double
@@ -13,8 +14,8 @@ case class RetirementFund(
   }
 
   def invest(amount: Double) = {
-    val newBalance = fundBalance + amount
-    copy(fundBalance = newBalance)
+    val newBalance = this.fundBalance + amount
+    this.copy(fundBalance = newBalance)
   }
 
   def accrueValue(pct: Double) = {
